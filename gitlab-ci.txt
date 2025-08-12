@@ -1,0 +1,40 @@
+.gitlab-ci.yml
+Pipeline_Automacao_QA:
+  image: python:latest
+  stage: build
+  before_script:
+    # # Mostra versão linux
+    # - cat /etc/os-release
+
+    # Criando Imagem
+    - apt-get update -qq -y
+    - apt-get install -y wget gnupg
+    - apt-get install -y jq
+
+    # Instalar o Google Chrome
+    - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+    - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update && apt-get install -y google-chrome-stable
+    
+    # Instalar o chromedriver
+    - versao_chromedriver=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform == "linux64").url')
+    - wget -q -O chromedriver-linux64.zip "$versao_chromedriver"
+    - unzip -j chromedriver-linux64.zip chromedriver-linux64/chromedriver
+    - rm chromedriver-linux64.zip
+    - mv chromedriver /usr/local/bin/
+
+    # Atualização de libraries
+    - pip install --upgrade -r robot/requirements.txt
+
+    # # Verificando versões
+    # - google-chrome --version
+    # - chromedriver --version
+
+  script:
+    - robot -d ./reports -v BROWSER:headlesschrome robot\tests
+
+  artifacts:
+    when: always
+    expire_in: 1 day
+    paths:
+      - reports/

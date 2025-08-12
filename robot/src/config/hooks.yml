@@ -1,0 +1,14 @@
+link:
+  spj_dev: https://spj-dev.ipe-policiacivil.sp.gov.br
+  spj_hom: https://spj-hom.ipe-policiacivil.sp.gov.br/
+
+
+login:
+  perfil_adm: 236046275
+  delegado_capital: 397045694
+  escrivao_capital: 496034546
+  delegado_interior: 462044804
+  psw: Teste@123
+
+link_API:
+  url_api:  https://www.4devs.com.br/ferramentas_online.php

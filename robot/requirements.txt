@@ -1,0 +1,8 @@
+robotframework
+setuptools
+robotframework-seleniumlibrary
+robotframework-requests
+chromedriver-py
+pyyaml
+robotframework-faker
+beautifulsoup4
